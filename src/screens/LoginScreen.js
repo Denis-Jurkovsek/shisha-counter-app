@@ -2,11 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {
   TextInput,
   View,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
-  Button,
-  Platform,
   Image,
   SafeAreaView,
   TouchableOpacity,
@@ -137,7 +134,29 @@ function Login() {
   };
 
   // Google SSO
-  const signInWithGoogle = () => {};
+  const signInWithGoogle = () =>
+    GoogleAuthentication.logInAsync({
+      androidStandaloneAppClientId:
+        '260632925033-944l8q6tat0fv6askovijf24ifbuiejp.apps.googleusercontent.com',
+      iosStandaloneAppClientId: '0',
+      scopes: ['profile', 'email'],
+    })
+      .then(logInResult => {
+        if (logInResult.type === 'success') {
+          const {idToken, accessToken} = logInResult;
+          const credential = firebase.auth.GoogleAuthProvider.credential(
+            idToken,
+            accessToken,
+          );
+
+          return signInWithCredential(auth, credential);
+          // Successful sign in is handled by firebase.auth().onAuthStateChanged
+        }
+        return Promise.reject(); // Or handle user cancelation separatedly
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
   return (
     <SafeAreaView style={styles.container}>

@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {auth, db} from '../../firebase';
 import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
-
 import normalize from 'react-native-normalize';
 import {Row, Grid} from 'react-native-easy-grid';
 
@@ -72,9 +71,11 @@ const backgroundImage = {
 };
 
 class Counter extends Component {
-  // Todo Loading after set the counter being offline
-  // Todo Orientation lock
-  // Todo SafeAreaView
+  // TODO: Loading after set the counter being offline
+  // TODO: StatusBar Color
+  // TODO: Google SSO
+  // TODO: Splash Screen IOS
+  // TODO: Generate Prod KeyStore
 
   constructor(props) {
     super(props);
@@ -160,6 +161,7 @@ class Counter extends Component {
 
   render() {
     return (
+      // TODO: Status bar <StatusBar backgroundColor="#yourColor" />
       <View style={[styles.bg]}>
         <Grid>
           <ImageBackground

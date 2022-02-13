@@ -4,10 +4,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CounterScreen from './src/screens/CounterScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import {SafeAreaView} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
+  SplashScreen.hide();
   return (
     // Component from ReactNavigation, to make the routing
     <SafeAreaView style={{flex: 1}}>
