@@ -10,6 +10,7 @@ import {auth, db} from '../../firebase';
 import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
 import normalize from 'react-native-normalize';
 import {Row, Grid} from 'react-native-easy-grid';
+import NetInfo from '@react-native-community/netinfo';
 
 const styles = StyleSheet.create({
   bg: {flex: 1, alignItems: 'center', backgroundColor: '#333'},
@@ -71,8 +72,7 @@ const backgroundImage = {
 };
 
 class Counter extends Component {
-  // TODO: Loading after set the counter being offline
-  // TODO: StatusBar Color
+  // TODO: Cooldown for adding +1 counter
   // TODO: Google SSO
   // TODO: Splash Screen IOS
   // TODO: Generate Prod KeyStore
@@ -92,14 +92,21 @@ class Counter extends Component {
   }
 
   componentDidMount() {
-    this.getDocument()
-      .then(data => {
-        this.setState({counter: data.count, loading: false});
-      })
-      .catch(() => {
-        // Create data for the first time
-        this.setData();
-      });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected >= true) {
+        this.getDocument()
+          .then(data => {
+            this.setState({counter: data.count, loading: false});
+          })
+          .catch(() => {
+            // Create data for the first time
+            this.setData();
+          });
+      } else {
+        // Replace maybe to a redirect or something
+        alert('Du benötigst Internet um die App nutzen zu können.');
+      }
+    });
   }
 
   // Getting the document data of one UUID
@@ -125,22 +132,43 @@ class Counter extends Component {
 
   // Function to add plus one to the counter
   addCount = () => {
-    this.setState({counter: this.state.counter + 1});
+    NetInfo.fetch().then(state => {
+      if (state.isConnected >= true) {
+        this.setState({counter: this.state.counter + 1});
+      } else {
+        // Replace maybe to a redirect or something
+        alert('Du benötigst Internet um die App nutzen zu können.');
+      }
+    });
   };
 
   // Function to subtract one from the counter
   removeCount = () => {
-    if (this.state.counter > 0) {
-      this.setState({counter: this.state.counter - 1});
-    }
+    NetInfo.fetch().then(state => {
+      if (state.isConnected >= true) {
+        if (this.state.counter > 0) {
+          this.setState({counter: this.state.counter - 1});
+        }
+      } else {
+        // Replace maybe to a redirect or something
+        alert('Du benötigst Internet um die App nutzen zu können.');
+      }
+    });
   };
 
   // Function to reset the counter
   // TODO: Add if-condition: If the user want really to reset his counter.
   resetCount = () => {
-    if (this.state.counter > 0) {
-      this.setState({counter: 0});
-    }
+    NetInfo.fetch().then(state => {
+      if (state.isConnected >= true) {
+        if (this.state.counter > 0) {
+          this.setState({counter: 0});
+        }
+      } else {
+        // Replace maybe to a redirect or something
+        alert('Du benötigst Internet um die App nutzen zu können.');
+      }
+    });
   };
 
   // Function to sign out
@@ -161,7 +189,6 @@ class Counter extends Component {
 
   render() {
     return (
-      // TODO: Status bar <StatusBar backgroundColor="#yourColor" />
       <View style={[styles.bg]}>
         <Grid>
           <ImageBackground

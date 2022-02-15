@@ -133,31 +133,6 @@ function Login() {
       .catch(error => alert(error.message));
   };
 
-  // Google SSO
-  const signInWithGoogle = () =>
-    GoogleAuthentication.logInAsync({
-      androidStandaloneAppClientId:
-        '260632925033-944l8q6tat0fv6askovijf24ifbuiejp.apps.googleusercontent.com',
-      iosStandaloneAppClientId: '0',
-      scopes: ['profile', 'email'],
-    })
-      .then(logInResult => {
-        if (logInResult.type === 'success') {
-          const {idToken, accessToken} = logInResult;
-          const credential = firebase.auth.GoogleAuthProvider.credential(
-            idToken,
-            accessToken,
-          );
-
-          return signInWithCredential(auth, credential);
-          // Successful sign in is handled by firebase.auth().onAuthStateChanged
-        }
-        return Promise.reject(); // Or handle user cancelation separatedly
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -211,9 +186,7 @@ function Login() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.buttonGoogle}
-          onPress={signInWithGoogle}>
+        <TouchableOpacity style={styles.buttonGoogle}>
           <Text style={styles.buttonText}>
             <Icon name="google" size={17} /> Continue with Google
           </Text>
