@@ -101,7 +101,10 @@ class Counter extends Component {
           });
       } else {
         // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
+        Alert.alert(
+          'Internet Verbindung',
+          'Sie benötigen Internet um die App nutzen zu können.',
+        );
       }
     });
   }
@@ -134,7 +137,10 @@ class Counter extends Component {
         this.setState({counter: this.state.counter + 1});
       } else {
         // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
+        Alert.alert(
+          'Internet Verbindung',
+          'Sie benötigen Internet um die App nutzen zu können.',
+        );
       }
     });
   };
@@ -148,7 +154,10 @@ class Counter extends Component {
         }
       } else {
         // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
+        Alert.alert(
+          'Internet Verbindung',
+          'Sie benötigen Internet um die App nutzen zu können.',
+        );
       }
     });
   };
@@ -156,16 +165,16 @@ class Counter extends Component {
   // Function to reset the counter
   resetCount = () => {
     Alert.alert(
-      'Counter zurucksetzen?',
-      'Es ist nicht moglich den Counter wiederherzustellen',
+      'Counter zurücksetzen?',
+      'Es ist nicht möglich den Counter danach wiederherzustellen!',
       [
         {
-          text: 'Cancel',
+          text: 'Abbrechen',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
-          text: 'OK',
+          text: 'Zurücksetzen',
           onPress: () => {
             NetInfo.fetch().then(state => {
               if (state.isConnected >= true) {
@@ -174,7 +183,10 @@ class Counter extends Component {
                 }
               } else {
                 // Replace maybe to a redirect or something
-                alert('Du benötigst Internet um die App nutzen zu können.');
+                Alert.alert(
+                  'Internet Verbindung',
+                  'Sie benötigen Internet um die App nutzen zu können.',
+                );
               }
             });
           },
@@ -190,7 +202,12 @@ class Counter extends Component {
       .then(() => {
         this.props.navigation.replace('Login');
       })
-      .catch(error => alert(error.message));
+      .catch(error => {
+        Alert.alert(
+          'Fehler',
+          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
+        );
+      });
   };
 
   // Get the current date
@@ -220,26 +237,26 @@ class Counter extends Component {
             <Row size={45} style={styles.center}>
               <View>
                 <Text style={styles.counter}>{this.state.counter}</Text>
-                <Text style={styles.counterText}>Pfeifen</Text>
+                <Text style={styles.counterText}>Köpfe</Text>
               </View>
             </Row>
 
             <Row size={10} style={styles.center}>
               <TouchableOpacity style={styles.button}>
                 <Text onPress={this.removeCount} style={styles.white}>
-                  Remove
+                  -1 Kopf
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.button}>
                 <Text onPress={this.resetCount} style={styles.white}>
-                  Reset
+                  Zurücksetzen
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.button}>
                 <Text onPress={this.addCount} style={styles.white}>
-                  Add
+                  +1 Kopf
                 </Text>
               </TouchableOpacity>
             </Row>

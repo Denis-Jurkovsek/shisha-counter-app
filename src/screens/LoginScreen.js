@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
+    textAlignVertical: 'center',
     marginLeft: normalize(20),
   },
 
@@ -120,7 +122,12 @@ function Login() {
         const user = userCredentials.user;
         console.log('Registered with: ', user.email);
       })
-      .catch(error => alert(error.message));
+      .catch(error => {
+        Alert.alert(
+          'Fehler',
+          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
+        );
+      });
   };
 
   // function to sign the user in
@@ -130,7 +137,12 @@ function Login() {
         const user = userCredentials.user;
         console.log('Logged in with: ', user.email);
       })
-      .catch(error => alert(error.message));
+      .catch(error => {
+        Alert.alert(
+          'Fehler',
+          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
+        );
+      });
   };
 
   return (
@@ -139,39 +151,40 @@ function Login() {
       style={styles.container}>
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require('../assets/img/logo.png')} />
-        <Text style={styles.logoText}>Sign up</Text>
+        <Text style={styles.logoText}>Shisha Counter</Text>
       </View>
 
       <View style={styles.loginContainer}>
         <TextInput
           style={styles.input}
           onChangeText={text => setEmail(text)}
-          placeholder="Enter your email"
+          placeholder="Ihre E-Mail"
           placeholderTextColor="white"
           value={email}
         />
         <TextInput
           style={styles.input}
           onChangeText={text => setPassword(text)}
-          placeholder="Enter your password"
+          placeholder="Ihr Passwort"
           placeholderTextColor="white"
           value={password}
           secureTextEntry
         />
 
         <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Anmelden</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Register</Text>
+          <Text style={styles.buttonText}>Registieren</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.policyContainer}>
         <LinkButton url="https://www.jade-hookah.de/impressum">
           <Text style={styles.policyText}>
-            You accept the conditions and privacy policy by login into the app.
+            Beim Anmelden in der App akzeptieren Sie die Datenschutzbestimmungen
+            und die AGBs!
           </Text>
         </LinkButton>
       </View>
