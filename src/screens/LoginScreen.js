@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
@@ -19,25 +20,31 @@ import {Row, Grid} from 'react-native-easy-grid';
 import normalize from 'react-native-normalize';
 import Icon from 'react-native-vector-icons/AntDesign';
 import LinkButton from '../components/link-button.component';
-import firebase from 'firebase/compat';
+import SplashScreen from 'react-native-splash-screen';
 
 const styles = StyleSheet.create({
   // Containers
-  loginContainer: {padding: normalize(20)},
+  loginContainer: {paddingTop: normalize(20), flex: 1},
   policyContainer: {
     padding: normalize(30),
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
     textAlign: 'center',
     color: '#fff',
   },
-  container: {padding: normalize(20), flex: 1, backgroundColor: '#333'},
+  container: {
+    padding: normalize(20),
+    height: '100%',
+    flex: 1,
+    backgroundColor: '#333',
+  },
 
   // Login & Register Buttons
   button: {
     elevation: 8,
     backgroundColor: '#00ffb3',
     borderRadius: 15,
-    paddingVertical: normalize(18),
+    paddingVertical: normalize(15),
     margin: normalize(10),
   },
   buttonApple: {
@@ -66,33 +73,24 @@ const styles = StyleSheet.create({
   },
 
   // Logo
-  logoContainer: {paddingTop: normalize(50), paddingBottom: normalize(10)},
-  logo: {width: normalize(50), height: normalize(50), left: normalize(35)},
+  logoContainer: {
+    paddingTop: normalize(50),
+    paddingBottom: normalize(10),
+    paddingHorizontal: normalize(10),
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  logo: {
+    width: normalize(50),
+    height: normalize(50),
+  },
   logoText: {
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
-    left: normalize(95),
-    top: normalize(7),
+    marginLeft: normalize(20),
   },
-
-  // ---- OR ----
-  orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: normalize(35),
-    paddingRight: normalize(35),
-  },
-  orStyle: {flex: 1, height: 1, backgroundColor: '#fff'},
-  orText: {
-    width: normalize(50),
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: 'bold',
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  lineStyle: {flex: 1, height: 1, backgroundColor: '#fff'},
 
   // Policy
   policyText: {color: '#c1c1c1', textAlign: 'center'},
@@ -108,6 +106,8 @@ function Login() {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         navigation.replace('Counter');
+      } else {
+        SplashScreen.hide();
       }
     });
     return unsubscribe;
@@ -134,14 +134,11 @@ function Login() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView
+      automaticallyAdjustsScrollIndicatorInsets={true}
+      style={styles.container}>
       <View style={styles.logoContainer}>
-        <Row>
-          <Image
-            style={styles.logo}
-            source={require('../assets/img/logo.png')}
-          />
-        </Row>
+        <Image style={styles.logo} source={require('../assets/img/logo.png')} />
         <Text style={styles.logoText}>Sign up</Text>
       </View>
 
@@ -171,28 +168,6 @@ function Login() {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.orContainer}>
-        <View style={styles.orStyle} />
-        <View>
-          <Text style={styles.orText}>OR</Text>
-        </View>
-        <View style={styles.lineStyle} />
-      </View>
-
-      <View style={styles.loginContainer}>
-        <TouchableOpacity style={styles.buttonApple}>
-          <Text style={styles.buttonText}>
-            <Icon name="apple1" size={17} /> Continue with Apple
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonGoogle}>
-          <Text style={styles.buttonText}>
-            <Icon name="google" size={17} /> Continue with Google
-          </Text>
-        </TouchableOpacity>
-      </View>
-
       <View style={styles.policyContainer}>
         <LinkButton url="https://www.jade-hookah.de/impressum">
           <Text style={styles.policyText}>
@@ -200,7 +175,7 @@ function Login() {
           </Text>
         </LinkButton>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 

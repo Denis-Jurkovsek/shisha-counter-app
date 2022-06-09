@@ -1,20 +1,22 @@
-import React, {Component, useCallback, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {auth, db} from '../../firebase';
 import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
 import normalize from 'react-native-normalize';
 import {Row, Grid} from 'react-native-easy-grid';
 import NetInfo from '@react-native-community/netinfo';
+import SplashScreen from 'react-native-splash-screen';
 
 const styles = StyleSheet.create({
   bg: {flex: 1, alignItems: 'center', backgroundColor: '#333'},
-  height: {height: 100},
+  height: {height: '100%'},
 
   // Colors
   grey: {color: '#c1c1c1'},
@@ -67,16 +69,7 @@ const styles = StyleSheet.create({
   button: {paddingLeft: normalize(30), paddingRight: normalize(30)},
 });
 
-const backgroundImage = {
-  uri: 'https://shop.kvze.studio/media/d5/0d/f7/1635945163/STEELOHNESCHLAUCHOhne-Schlauch-8.png',
-};
-
 class Counter extends Component {
-  // TODO: Cooldown for adding +1 counter
-  // TODO: Google SSO
-  // TODO: Splash Screen IOS
-  // TODO: Generate Prod KeyStore
-
   constructor(props) {
     super(props);
     this.state = {
@@ -97,10 +90,14 @@ class Counter extends Component {
         this.getDocument()
           .then(data => {
             this.setState({counter: data.count, loading: false});
+
+            SplashScreen.hide();
           })
           .catch(() => {
             // Create data for the first time
             this.setData();
+
+            SplashScreen.hide();
           });
       } else {
         // Replace maybe to a redirect or something
@@ -132,7 +129,7 @@ class Counter extends Component {
 
   // Function to add plus one to the counter
   addCount = () => {
-    NetInfo.fetch().then(state => {
+    NetInfo.fetch().then(async state => {
       if (state.isConnected >= true) {
         this.setState({counter: this.state.counter + 1});
       } else {
@@ -144,7 +141,7 @@ class Counter extends Component {
 
   // Function to subtract one from the counter
   removeCount = () => {
-    NetInfo.fetch().then(state => {
+    NetInfo.fetch().then(async state => {
       if (state.isConnected >= true) {
         if (this.state.counter > 0) {
           this.setState({counter: this.state.counter - 1});
@@ -157,18 +154,33 @@ class Counter extends Component {
   };
 
   // Function to reset the counter
-  // TODO: Add if-condition: If the user want really to reset his counter.
   resetCount = () => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected >= true) {
-        if (this.state.counter > 0) {
-          this.setState({counter: 0});
-        }
-      } else {
-        // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
-      }
-    });
+    Alert.alert(
+      'Counter zurucksetzen?',
+      'Es ist nicht moglich den Counter wiederherzustellen',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            NetInfo.fetch().then(state => {
+              if (state.isConnected >= true) {
+                if (this.state.counter > 0) {
+                  this.setState({counter: 0});
+                }
+              } else {
+                // Replace maybe to a redirect or something
+                alert('Du benötigst Internet um die App nutzen zu können.');
+              }
+            });
+          },
+        },
+      ],
+    );
   };
 
   // Function to sign out
@@ -192,7 +204,7 @@ class Counter extends Component {
       <View style={[styles.bg]}>
         <Grid>
           <ImageBackground
-            source={backgroundImage}
+            source={require('../assets/hookah.png')}
             style={styles.backgroundImage}
             imageStyle={styles.imageStyle}>
             <Row size={45} style={styles.left}>
