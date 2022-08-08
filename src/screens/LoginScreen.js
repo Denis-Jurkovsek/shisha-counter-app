@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     textAlignVertical: 'center',
+    alignSelf: 'center',
     marginLeft: normalize(20),
   },
 
@@ -109,18 +110,18 @@ function Login() {
       if (user) {
         navigation.replace('Counter');
       } else {
+        // no users logged in
         SplashScreen.hide();
       }
     });
     return unsubscribe;
-  }, []);
+  }, [navigation]);
 
   // function to sign up the user
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Registered with: ', user.email);
       })
       .catch(error => {
         Alert.alert(
@@ -135,7 +136,6 @@ function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Logged in with: ', user.email);
       })
       .catch(error => {
         Alert.alert(
@@ -147,6 +147,7 @@ function Login() {
 
   return (
     <ScrollView
+      bounces={false}
       automaticallyAdjustsScrollIndicatorInsets={true}
       style={styles.container}>
       <View style={styles.logoContainer}>

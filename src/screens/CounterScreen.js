@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import {auth, db} from '../../firebase';
 import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
@@ -13,6 +14,7 @@ import normalize from 'react-native-normalize';
 import {Row, Grid} from 'react-native-easy-grid';
 import NetInfo from '@react-native-community/netinfo';
 import SplashScreen from 'react-native-splash-screen';
+import {DialogComponent} from '../components/dialog.component';
 
 const styles = StyleSheet.create({
   bg: {flex: 1, alignItems: 'center', backgroundColor: '#333'},
@@ -74,6 +76,7 @@ class Counter extends Component {
     super(props);
     this.state = {
       counter: 0,
+      dialogVisible: false,
       user: auth.currentUser,
       uuid: auth.currentUser.uid,
       loading: true,
@@ -96,8 +99,10 @@ class Counter extends Component {
           .catch(() => {
             // Create data for the first time
             this.setData();
-
             SplashScreen.hide();
+
+            // prompt to enter how many hookahs the user already smoked
+            this.setState({dialogVisible: true});
           });
       } else {
         // Replace maybe to a redirect or something
@@ -145,6 +150,27 @@ class Counter extends Component {
     });
   };
 
+  setCount = count => {
+    // check if count is a number to prevent parsing errors
+    if (!this.isNumber(count)) {
+      Alert.alert('Fehler', 'Bitte geben Sie nur Zahlen ein!');
+
+      return;
+    }
+
+    NetInfo.fetch().then(async state => {
+      if (state.isConnected >= true) {
+        this.setState({counter: +count});
+      } else {
+        // Replace maybe to a redirect or something
+        Alert.alert(
+          'Internet Verbindung',
+          'Sie benötigen Internet um die App nutzen zu können.',
+        );
+      }
+    });
+  };
+
   // Function to subtract one from the counter
   removeCount = () => {
     NetInfo.fetch().then(async state => {
@@ -170,7 +196,6 @@ class Counter extends Component {
       [
         {
           text: 'Abbrechen',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
@@ -210,6 +235,11 @@ class Counter extends Component {
       });
   };
 
+  // check if string only contains numbers
+  isNumber = str => {
+    return /^\d+$/.test(str);
+  };
+
   // Get the current date
   day = new Date().getDate();
   month = new Date().getMonth() + 1;
@@ -219,47 +249,58 @@ class Counter extends Component {
   render() {
     return (
       <View style={[styles.bg]}>
+        <DialogComponent
+          visible={this.state.dialogVisible}
+          onClose={() => this.setState({dialogVisible: false})}
+          onConfirm={e => {
+            this.setCount(e);
+            this.setState({dialogVisible: false});
+          }}
+        />
+
         <Grid>
           <ImageBackground
             source={require('../assets/hookah.png')}
             style={styles.backgroundImage}
             imageStyle={styles.imageStyle}>
-            <Row size={45} style={styles.left}>
-              <View style={styles.height}>
-                <Text style={styles.title}>Jade Hookah</Text>
-                <Text style={styles.subTitle}>Shisha Counter</Text>
-                <Text style={styles.grey}>
-                  {this.day}.{this.fullMonth}.{this.year}
-                </Text>
-              </View>
-            </Row>
+            <SafeAreaView style={{flex: 1}}>
+              <Row size={45} style={styles.left}>
+                <View style={styles.height}>
+                  <Text style={styles.title}>Jade Hookah</Text>
+                  <Text style={styles.subTitle}>Shisha Counter</Text>
+                  <Text style={styles.grey}>
+                    {this.day}.{this.fullMonth}.{this.year}
+                  </Text>
+                </View>
+              </Row>
 
-            <Row size={45} style={styles.center}>
-              <View>
-                <Text style={styles.counter}>{this.state.counter}</Text>
-                <Text style={styles.counterText}>Köpfe</Text>
-              </View>
-            </Row>
+              <Row size={45} style={styles.center}>
+                <View>
+                  <Text style={styles.counter}>{this.state.counter}</Text>
+                  <Text style={styles.counterText}>Köpfe</Text>
+                </View>
+              </Row>
 
-            <Row size={10} style={styles.center}>
-              <TouchableOpacity style={styles.button}>
-                <Text onPress={this.removeCount} style={styles.white}>
-                  -1 Kopf
-                </Text>
-              </TouchableOpacity>
+              <Row size={10} style={styles.center}>
+                <TouchableOpacity style={styles.button}>
+                  <Text onPress={this.removeCount} style={styles.white}>
+                    -1 Kopf
+                  </Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity style={styles.button}>
-                <Text onPress={this.resetCount} style={styles.white}>
-                  Zurücksetzen
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.button}>
+                  <Text onPress={this.resetCount} style={styles.white}>
+                    Zurücksetzen
+                  </Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity style={styles.button}>
-                <Text onPress={this.addCount} style={styles.white}>
-                  +1 Kopf
-                </Text>
-              </TouchableOpacity>
-            </Row>
+                <TouchableOpacity style={styles.button}>
+                  <Text onPress={this.addCount} style={styles.white}>
+                    +1 Kopf
+                  </Text>
+                </TouchableOpacity>
+              </Row>
+            </SafeAreaView>
           </ImageBackground>
         </Grid>
       </View>
