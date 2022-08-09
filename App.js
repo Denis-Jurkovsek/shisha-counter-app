@@ -4,20 +4,18 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CounterScreen from './src/screens/CounterScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import MixScreen from './src/screens/MixScreen';
-import {SafeAreaView} from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import {View} from 'react-native';
 import {StatusBar} from 'react-native';
 const Stack = createNativeStackNavigator();
 
 function App() {
   useEffect(() => {
-    SplashScreen.hide();
     StatusBar.setBarStyle('light-content', true);
     StatusBar.setBackgroundColor('#333');
   });
   return (
     // Component from ReactNavigation, to make the routing
-    <SafeAreaView style={{flex: 1}}>
+    <View style={{flex: 1}}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -37,7 +35,7 @@ function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaView>
+    </View>
   );
 }
 
