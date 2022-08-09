@@ -1,241 +1,196 @@
-import React, {Component, useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  TextInput,
   View,
   StyleSheet,
   Text,
+  Image,
+  SafeAreaView,
   TouchableOpacity,
-  ImageBackground,
+  ScrollView,
+  Alert,
 } from 'react-native';
-import {auth, db} from '../../firebase';
-import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
-import normalize from 'react-native-normalize';
+import {
+  createUserWithEmailAndPassword,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import {auth} from '../../firebase';
+import {useNavigation} from '@react-navigation/native';
 import {Row, Grid} from 'react-native-easy-grid';
-import NetInfo from '@react-native-community/netinfo';
+import normalize from 'react-native-normalize';
+import Icon from 'react-native-vector-icons/AntDesign';
+import LinkButton from '../components/link-button.component';
+import SplashScreen from 'react-native-splash-screen';
 
 const styles = StyleSheet.create({
-  bg: {flex: 1, alignItems: 'center', backgroundColor: '#333'},
-  height: {height: 100},
-
-  // Colors
-  grey: {color: '#c1c1c1'},
-  white: {color: '#fff', fontWeight: 'bold', fontSize: 18},
-
-  // Positioning
-  center: {justifyContent: 'center'},
-  left: {justifyContent: 'flex-start'},
-
-  // Title
-  title: {
-    color: '#00ffb4',
-    fontSize: 35,
-    fontWeight: 'bold',
-    top: normalize(65),
-  },
-  subTitle: {
+  // Containers
+  loginContainer: {paddingTop: normalize(20), flex: 1},
+  policyContainer: {
+    padding: normalize(30),
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+    textAlign: 'center',
     color: '#fff',
-    fontSize: 35,
-    fontWeight: 'bold',
-    marginTop: normalize(60),
   },
-
-  // Counter
-  counter: {color: '#00ffb4', fontSize: 100, fontWeight: 'bold'},
-  counterText: {
-    color: '#c1c1c1',
-    fontSize: 20,
-    fontWeight: 'bold',
-    bottom: normalize(10),
-  },
-
-  // Background Image
-  backgroundImage: {
-    width: '100%',
+  container: {
+    padding: normalize(20),
     height: '100%',
-    padding: normalize(50),
-    paddingVertical: 0,
-    overflow: 'hidden',
-  },
-  imageStyle: {
-    resizeMode: 'cover',
-    height: normalize(800),
-    top: normalize(120),
-    left: normalize(-110),
-    opacity: 0.4,
+    flex: 1,
+    backgroundColor: '#333',
   },
 
-  // Button
-  button: {paddingLeft: normalize(30), paddingRight: normalize(30)},
+  // Login & Register Buttons
+  button: {
+    elevation: 8,
+    backgroundColor: '#00ffb3',
+    borderRadius: 15,
+    paddingVertical: normalize(15),
+    margin: normalize(10),
+  },
+  buttonApple: {
+    elevation: 8,
+    backgroundColor: '#09101D',
+    borderRadius: 15,
+    paddingVertical: normalize(18),
+    margin: normalize(10),
+  },
+  buttonGoogle: {
+    elevation: 8,
+    backgroundColor: '#5384EC',
+    borderRadius: 15,
+    paddingVertical: normalize(18),
+    margin: normalize(10),
+  },
+  buttonText: {fontSize: 15, color: '#fff', alignSelf: 'center'},
+  input: {
+    height: normalize(55),
+    margin: normalize(12),
+    borderWidth: 1,
+    padding: normalize(10),
+    color: '#fff',
+    borderColor: '#fff',
+    borderRadius: 10,
+  },
+
+  // Logo
+  logoContainer: {
+    paddingTop: normalize(50),
+    paddingBottom: normalize(10),
+    paddingHorizontal: normalize(10),
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  logo: {
+    width: normalize(50),
+    height: normalize(50),
+  },
+  logoText: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlignVertical: 'center',
+    alignSelf: 'center',
+    marginLeft: normalize(20),
+  },
+
+  // Policy
+  policyText: {color: '#c1c1c1', textAlign: 'center'},
 });
 
-const backgroundImage = {
-  uri: 'https://shop.kvze.studio/media/d5/0d/f7/1635945163/STEELOHNESCHLAUCHOhne-Schlauch-8.png',
-};
+function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
-class Counter extends Component {
-  // TODO: Cooldown for adding +1 counter
-  // TODO: Google SSO
-  // TODO: Splash Screen IOS
-  // TODO: Generate Prod KeyStore
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      counter: 0,
-      user: auth.currentUser,
-      uuid: auth.currentUser.uid,
-      loading: true,
-    };
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    this.setData();
-  }
-
-  componentDidMount() {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected >= true) {
-        this.getDocument()
-          .then(data => {
-            this.setState({counter: data.count, loading: false});
-          })
-          .catch(() => {
-            // Create data for the first time
-            this.setData();
-          });
+  // After register or login, get redirected to the counter screen
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigation.replace('Counter');
       } else {
-        // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
+        // no users logged in
+        SplashScreen.hide();
       }
     });
-  }
+    return unsubscribe;
+  }, [navigation]);
 
-  // Getting the document data of one UUID
-  getDocument = async () => {
-    const docRef = doc(db, 'counters', this.state.uuid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      // doc.data() will be undefined in this case
-      return null;
-    }
-  };
-
-  // If no document with the uuid exists, create new. If one exists update this document
-  setData = async () => {
-    setDoc(doc(db, 'counters', this.state.uuid), {
-      count: this.state.counter,
-      uuid: this.state.uuid,
-    });
-  };
-
-  // Function to add plus one to the counter
-  addCount = () => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected >= true) {
-        this.setState({counter: this.state.counter + 1});
-      } else {
-        // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
-      }
-    });
-  };
-
-  // Function to subtract one from the counter
-  removeCount = () => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected >= true) {
-        if (this.state.counter > 0) {
-          this.setState({counter: this.state.counter - 1});
-        }
-      } else {
-        // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
-      }
-    });
-  };
-
-  // Function to reset the counter
-  // TODO: Add if-condition: If the user want really to reset his counter.
-  resetCount = () => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected >= true) {
-        if (this.state.counter > 0) {
-          this.setState({counter: 0});
-        }
-      } else {
-        // Replace maybe to a redirect or something
-        alert('Du benötigst Internet um die App nutzen zu können.');
-      }
-    });
-  };
-
-  // Function to sign out
-  handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        this.props.navigation.replace('Login');
+  // function to sign up the user
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
       })
-      .catch(error => alert(error.message));
+      .catch(error => {
+        Alert.alert(
+          'Fehler',
+          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
+        );
+      });
   };
 
-  // Get the current date
-  day = new Date().getDate();
-  month = new Date().getMonth() + 1;
-  fullMonth = this.month.toString().padStart(2, '0');
-  year = new Date().getFullYear();
+  // function to sign the user in
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+      })
+      .catch(error => {
+        Alert.alert(
+          'Fehler',
+          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
+        );
+      });
+  };
 
-  render() {
-    return (
-      <View style={[styles.bg]}>
-        <Grid>
-          <ImageBackground
-            source={backgroundImage}
-            style={styles.backgroundImage}
-            imageStyle={styles.imageStyle}>
-            <Row size={45} style={styles.left}>
-              <View style={styles.height}>
-                <Text style={styles.title}>Jade Hookah</Text>
-                <Text style={styles.subTitle}>Shisha Counter</Text>
-                <Text style={styles.grey}>
-                  {this.day}.{this.fullMonth}.{this.year}
-                </Text>
-              </View>
-            </Row>
-
-            <Row size={45} style={styles.center}>
-              <View>
-                <Text style={styles.counter}>{this.state.counter}</Text>
-                <Text style={styles.counterText}>Pfeifen</Text>
-              </View>
-            </Row>
-
-            <Row size={10} style={styles.center}>
-              <TouchableOpacity style={styles.button}>
-                <Text onPress={this.removeCount} style={styles.white}>
-                  Remove
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.button}>
-                <Text onPress={this.resetCount} style={styles.white}>
-                  Reset
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.button}>
-                <Text onPress={this.addCount} style={styles.white}>
-                  Add
-                </Text>
-              </TouchableOpacity>
-            </Row>
-          </ImageBackground>
-        </Grid>
+  return (
+    <ScrollView
+      bounces={false}
+      automaticallyAdjustsScrollIndicatorInsets={true}
+      style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image style={styles.logo} source={require('../assets/img/logo.png')} />
+        <Text style={styles.logoText}>Shisha Counter</Text>
       </View>
-    );
-  }
+
+      <View style={styles.loginContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setEmail(text)}
+          placeholder="Ihre E-Mail"
+          placeholderTextColor="white"
+          value={email}
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setPassword(text)}
+          placeholder="Ihr Passwort"
+          placeholderTextColor="white"
+          value={password}
+          secureTextEntry
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+          <Text style={styles.buttonText}>Anmelden</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Registieren</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.policyContainer}>
+        <LinkButton url="https://www.jade-hookah.de/impressum">
+          <Text style={styles.policyText}>
+            Beim Anmelden in der App akzeptieren Sie die Datenschutzbestimmungen
+            und die AGBs!
+          </Text>
+        </LinkButton>
+      </View>
+    </ScrollView>
+  );
 }
 
-export default Counter;
+export default React.memo(Login);

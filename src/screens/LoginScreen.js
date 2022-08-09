@@ -10,16 +10,14 @@ import {
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
-  signInWithCredential,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {auth} from '../../firebase';
 import {useNavigation} from '@react-navigation/native';
-import {Row, Grid} from 'react-native-easy-grid';
+import {Row} from 'react-native-easy-grid';
 import normalize from 'react-native-normalize';
 import Icon from 'react-native-vector-icons/AntDesign';
 import LinkButton from '../components/link-button.component';
-import firebase from 'firebase/compat';
 
 const styles = StyleSheet.create({
   // Containers
