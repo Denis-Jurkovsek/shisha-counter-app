@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CounterScreen from './src/screens/CounterScreen';
 import LoginScreen from './src/screens/LoginScreen';
+import MixScreen from './src/screens/MixScreen';
 import {SafeAreaView} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {StatusBar} from 'react-native';
@@ -28,6 +29,11 @@ function App() {
             options={{headerShown: false}}
             name="Counter"
             component={CounterScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Mix"
+            component={MixScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
