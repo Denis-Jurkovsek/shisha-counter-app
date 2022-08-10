@@ -5,11 +5,12 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import normalize from 'react-native-normalize/src/index';
 import {Row, Grid} from 'react-native-easy-grid';
 import {Rating} from 'react-native-ratings';
-import TabaccoCard from '../components/tabacco-card.component';
+import TobaccoCard from '../components/tobacco-card.component';
 
 const styles = StyleSheet.create({
   container: {
@@ -110,14 +111,12 @@ class Mix extends Component {
                 style={styles.halfInput}
                 placeholder="Erste Tabaksorte"
                 placeholderTextColor="white"
-                secureTextEntry
               />
 
               <TextInput
                 style={styles.quarterInput}
                 placeholder="Wie viel %?"
                 placeholderTextColor="white"
-                secureTextEntry
               />
             </Row>
 
@@ -126,14 +125,12 @@ class Mix extends Component {
                 style={styles.halfInput}
                 placeholder="Zweite Tabaksorte"
                 placeholderTextColor="white"
-                secureTextEntry
               />
 
               <TextInput
                 style={styles.quarterInput}
                 placeholder="Wie viel %?"
                 placeholderTextColor="white"
-                secureTextEntry
               />
             </Row>
           </Grid>
@@ -144,14 +141,14 @@ class Mix extends Component {
             ratingBackgroundColor="#c8c7c8"
             tintColor="#333"
             ratingCount={5}
-            imageSize={25}
+            imageSize={27}
             onFinishRating={this.ratingCompleted}
             style={{
               paddingVertical: normalize(10),
               top: normalize(140),
-              left: normalize(95),
             }}
           />
+
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>CREATE YOUR MIX</Text>
           </TouchableOpacity>
@@ -162,11 +159,14 @@ class Mix extends Component {
             YOUR <Text style={styles.subtitle}>MIXES.</Text>
           </Text>
 
-          <Row>
-            <TabaccoCard />
-            <TabaccoCard />
-            <TabaccoCard />
-          </Row>
+          <ScrollView horizontal={true}>
+            <TobaccoCard />
+            <TobaccoCard />
+            <TobaccoCard />
+            <TobaccoCard />
+            <TobaccoCard />
+            <TobaccoCard />
+          </ScrollView>
         </View>
       </View>
     );

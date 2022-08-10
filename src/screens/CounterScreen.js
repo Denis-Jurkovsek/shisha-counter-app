@@ -278,6 +278,11 @@ class Counter extends Component {
                 <View>
                   <Text style={styles.counter}>{this.state.counter}</Text>
                   <Text style={styles.counterText}>Köpfe</Text>
+                  <Text
+                    onPress={() => this.props.navigation.navigate('Mix')}
+                    style={styles.counterText}>
+                    Mixes
+                  </Text>
                 </View>
               </Row>
 

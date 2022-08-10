@@ -5,21 +5,17 @@ import {
   StyleSheet,
   Text,
   Image,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   Alert,
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
-  signInWithCredential,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {auth} from '../../firebase';
 import {useNavigation} from '@react-navigation/native';
-import {Row, Grid} from 'react-native-easy-grid';
 import normalize from 'react-native-normalize';
-import Icon from 'react-native-vector-icons/AntDesign';
 import LinkButton from '../components/link-button.component';
 import SplashScreen from 'react-native-splash-screen';
 

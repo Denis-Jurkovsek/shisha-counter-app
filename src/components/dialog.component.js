@@ -1,6 +1,6 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import Dialog from 'react-native-dialog';
-import {View, StyleSheet, TextInput} from 'react-native';
+import {View} from 'react-native';
 
 export const DialogComponent = props => {
   const {visible, onConfirm, onClose} = props;

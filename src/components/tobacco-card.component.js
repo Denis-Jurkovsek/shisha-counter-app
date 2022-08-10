@@ -1,12 +1,12 @@
 import React from 'react';
-import {TouchableOpacity, Text, Linking, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {Rating} from 'react-native-ratings';
 import normalize from 'react-native-normalize/src/index';
 
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#23262B',
-    width: normalize(140),
+    width: normalize(141),
     height: normalize(140),
     padding: normalize(15),
     marginTop: normalize(15),
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   cardMixture: {color: '#00ffb3'},
 });
 
-const TabaccoCard = props => {
+const TobaccoCard = props => {
   return (
     <View style={styles.card}>
       <Text style={styles.cardName}>Doppel Pynkman</Text>
@@ -28,7 +28,7 @@ const TabaccoCard = props => {
         ratingBackgroundColor="#c8c7c8"
         tintColor="#23262B"
         ratingCount={5}
-        imageSize={20}
+        imageSize={21}
         style={{
           paddingVertical: normalize(10),
         }}
@@ -37,4 +37,4 @@ const TabaccoCard = props => {
   );
 };
 
-export default TabaccoCard;
+export default TobaccoCard;
