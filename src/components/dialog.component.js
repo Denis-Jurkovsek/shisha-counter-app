@@ -1,15 +1,6 @@
 import React, {useRef} from 'react';
 import Dialog from 'react-native-dialog';
 import {View, StyleSheet, TextInput} from 'react-native';
-import {BlurView} from '@react-native-community/blur';
-
-const blurComponentIOS = (
-  <BlurView
-    style={StyleSheet.absoluteFill}
-    blurType="regular"
-    blurAmount={100}
-  />
-);
 
 export const DialogComponent = props => {
   const {visible, onConfirm, onClose} = props;
@@ -17,10 +8,7 @@ export const DialogComponent = props => {
 
   return (
     <View>
-      <Dialog.Container
-        blurComponentIOS={blurComponentIOS}
-        visible={visible}
-        onBackdropPress={onConfirm}>
+      <Dialog.Container visible={visible} onBackdropPress={onConfirm}>
         <Dialog.Title>Köpfe geraucht</Dialog.Title>
         <Dialog.Description>
           Wie viele Köpfe hast du du bereits geraucht?
