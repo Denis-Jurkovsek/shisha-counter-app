@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Alert,
   SafeAreaView,
+  Button,
 } from 'react-native';
 import {auth, db} from '../../firebase';
 import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
   // Colors
   grey: {color: '#c1c1c1'},
   white: {color: '#fff', fontWeight: 'bold', fontSize: 18},
+  primary: {color: '#00ffb4', fontWeight: 'bold', fontSize: 18},
 
   // Positioning
   center: {justifyContent: 'center'},
@@ -69,6 +71,12 @@ const styles = StyleSheet.create({
 
   // Button
   button: {paddingLeft: normalize(30), paddingRight: normalize(30)},
+  resetButton: {
+    marginTop: normalize(20),
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
 });
 
 class Counter extends Component {
@@ -264,6 +272,12 @@ class Counter extends Component {
             style={styles.backgroundImage}
             imageStyle={styles.imageStyle}>
             <SafeAreaView style={{flex: 1}}>
+              <TouchableOpacity
+                style={styles.resetButton}
+                onPress={this.resetCount}>
+                <Text style={styles.buttonText}>Counter Zurücksetzen</Text>
+              </TouchableOpacity>
+
               <Row size={45} style={styles.left}>
                 <View style={styles.height}>
                   <Text style={styles.title}>Jade Hookah</Text>
@@ -278,11 +292,6 @@ class Counter extends Component {
                 <View>
                   <Text style={styles.counter}>{this.state.counter}</Text>
                   <Text style={styles.counterText}>Köpfe</Text>
-                  <Text
-                    onPress={() => this.props.navigation.navigate('Mix')}
-                    style={styles.counterText}>
-                    Mixes
-                  </Text>
                 </View>
               </Row>
 
@@ -294,8 +303,10 @@ class Counter extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
-                  <Text onPress={this.resetCount} style={styles.white}>
-                    Zurücksetzen
+                  <Text
+                    onPress={() => this.props.navigation.navigate('Mix')}
+                    style={styles.primary}>
+                    MIXES
                   </Text>
                 </TouchableOpacity>
 

@@ -1,21 +1,25 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
   ScrollView,
+  Pressable,
+  Alert,
+  Modal,
+  TextInput,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import normalize from 'react-native-normalize/src/index';
-import {Row, Grid} from 'react-native-easy-grid';
-import {Rating} from 'react-native-ratings';
 import TobaccoCard from '../components/tobacco-card.component';
+import {Col, Grid, Row} from 'react-native-easy-grid';
 
 const styles = StyleSheet.create({
   container: {
-    padding: normalize(20),
     flex: 1,
+    padding: normalize(20),
     backgroundColor: '#333',
   },
   textContainer: {
@@ -34,39 +38,6 @@ const styles = StyleSheet.create({
   whiteText: {
     color: '#fff',
   },
-  // Inputs
-  input: {
-    height: normalize(55),
-    margin: normalize(12),
-    borderWidth: 1,
-    padding: normalize(10),
-    color: '#fff',
-    borderColor: '#fff',
-    borderRadius: 10,
-  },
-
-  halfInput: {
-    height: normalize(55),
-    width: normalize(200),
-    margin: normalize(12),
-    borderWidth: 1,
-    padding: normalize(10),
-    color: '#fff',
-    borderColor: '#fff',
-    borderRadius: 10,
-  },
-
-  quarterInput: {
-    height: normalize(55),
-    width: normalize(103),
-    margin: normalize(12),
-    borderWidth: 1,
-    padding: normalize(10),
-    color: '#fff',
-    borderColor: '#fff',
-    borderRadius: 10,
-  },
-
   // Buttons
   buttonText: {fontSize: 15, color: '#fff', alignSelf: 'center'},
   button: {
@@ -75,102 +46,271 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: normalize(18),
     margin: normalize(10),
-    marginTop: normalize(150),
+  },
+
+  chip: {
+    backgroundColor: '#4D4D4D',
+    width: 100,
+    height: 25,
+    marginTop: normalize(10),
+    marginLeft: normalize(20),
+    borderRadius: 10,
+    alignItems: 'center',
   },
 
   // Cards
   mixContainer: {
     padding: normalize(15),
   },
+
+  // Input
+  flavourBackground: {
+    width: 250,
+    height: 40,
+    backgroundColor: '#333333',
+    borderRadius: 10,
+    marginTop: normalize(15),
+  },
+
+  // Modal
+  centeredView: {
+    height: '100%',
+    backgroundColor: '#333',
+    justifyContent: 'center',
+  },
+  modalView: {
+    height: 500,
+    margin: normalize(20),
+    backgroundColor: '#23262B',
+    borderRadius: 20,
+    padding: normalize(35),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textStyle: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '600',
+  },
+  emoji: {width: 80, height: 80, alignSelf: 'center'},
 });
 
-const rating_image = require('../assets/img/hookah.png');
-
-class Mix extends Component {
-  ratingCompleted(rating) {
-    console.log('Rating is: ' + rating);
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Create your own</Text>
-          <Text style={styles.subtitle}>MIXES.</Text>
-        </View>
-
-        <View style={styles.loginContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Gib deinem Mix einen Namen"
-            placeholderTextColor="white"
-          />
-          <Grid>
-            <Row>
-              <TextInput
-                style={styles.halfInput}
-                placeholder="Erste Tabaksorte"
-                placeholderTextColor="white"
-              />
-
-              <TextInput
-                style={styles.quarterInput}
-                placeholder="Wie viel %?"
-                placeholderTextColor="white"
-              />
-            </Row>
-
-            <Row style={{marginTop: 60}}>
-              <TextInput
-                style={styles.halfInput}
-                placeholder="Zweite Tabaksorte"
-                placeholderTextColor="white"
-              />
-
-              <TextInput
-                style={styles.quarterInput}
-                placeholder="Wie viel %?"
-                placeholderTextColor="white"
-              />
-            </Row>
-          </Grid>
-
-          <Rating
-            type="star"
-            ratingColor="#00ffb4"
-            ratingBackgroundColor="#c8c7c8"
-            tintColor="#333"
-            ratingCount={5}
-            imageSize={27}
-            onFinishRating={this.ratingCompleted}
-            style={{
-              paddingVertical: normalize(10),
-              top: normalize(140),
-            }}
-          />
-
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>CREATE YOUR MIX</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.mixContainer}>
-          <Text style={styles.title}>
-            YOUR <Text style={styles.subtitle}>MIXES.</Text>
-          </Text>
-
-          <ScrollView horizontal={true}>
-            <TobaccoCard />
-            <TobaccoCard />
-            <TobaccoCard />
-            <TobaccoCard />
-            <TobaccoCard />
-            <TobaccoCard />
-          </ScrollView>
-        </View>
+const Mix = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>
+          Community <Text style={styles.subtitle}>MIXES.</Text>
+        </Text>
       </View>
-    );
-  }
-}
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+              <Image
+                style={{
+                  width: 20,
+                  height: 20,
+                  alignSelf: 'flex-end',
+                }}
+                source={require('../assets/img/close_icon.png')}
+              />
+            </TouchableOpacity>
+            <Text style={styles.modalText}>Doppel Pynkman</Text>
+            <Text style={{fontSize: 20, color: '#808080', textAlign: 'center'}}>
+              Was ist drin?
+            </Text>
+
+            <Grid>
+              <Row style={styles.flavourBackground}>
+                <Col>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      color: '#00ffb3',
+                      fontWeight: 'bold',
+                      marginLeft: normalize(15),
+                      marginTop: normalize(5),
+                    }}>
+                    Pynkman
+                  </Text>
+                </Col>
+                <Col>
+                  <View style={styles.chip}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#fff',
+                        fontWeight: 'bold',
+                      }}>
+                      33%
+                    </Text>
+                  </View>
+                </Col>
+              </Row>
+
+              <Row style={styles.flavourBackground}>
+                <Col>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      color: '#00ffb3',
+                      fontWeight: 'bold',
+                      marginLeft: normalize(15),
+                      marginTop: normalize(5),
+                    }}>
+                    Pynkman
+                  </Text>
+                </Col>
+                <Col>
+                  <View style={styles.chip}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#fff',
+                        fontWeight: 'bold',
+                      }}>
+                      33%
+                    </Text>
+                  </View>
+                </Col>
+              </Row>
+              <Row style={styles.flavourBackground}>
+                <Col>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      color: '#00ffb3',
+                      fontWeight: 'bold',
+                      marginLeft: normalize(15),
+                      marginTop: normalize(5),
+                    }}>
+                    Pynkman
+                  </Text>
+                </Col>
+                <Col>
+                  <View style={styles.chip}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#fff',
+                        fontWeight: 'bold',
+                      }}>
+                      33%
+                    </Text>
+                  </View>
+                </Col>
+              </Row>
+              <Row style={styles.flavourBackground}>
+                <Col>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      color: '#00ffb3',
+                      fontWeight: 'bold',
+                      marginLeft: normalize(15),
+                      marginTop: normalize(5),
+                    }}>
+                    Pynkman
+                  </Text>
+                </Col>
+                <Col>
+                  <View style={styles.chip}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#fff',
+                        fontWeight: 'bold',
+                      }}>
+                      33%
+                    </Text>
+                  </View>
+                </Col>
+              </Row>
+            </Grid>
+
+            <Image
+              style={styles.emoji}
+              source={require('../assets/img/emoji_4.png')}
+            />
+
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.textStyle}>
+                Mark as favourite
+                <Image
+                  style={{width: 15, height: 15}}
+                  source={require('../assets/img/hearth_icon.png')}
+                />
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={{textAlign: 'center', color: '#808080'}}>
+              Created by <Text style={{fontWeight: 'bold'}}>@username</Text>
+            </Text>
+          </View>
+        </View>
+      </Modal>
+
+      <Grid>
+        <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+      </Grid>
+    </ScrollView>
+  );
+};
 
 export default Mix;
