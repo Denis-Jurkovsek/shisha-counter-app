@@ -18,14 +18,17 @@ import {useNavigation} from '@react-navigation/native';
 import normalize from 'react-native-normalize';
 import LinkButton from '../components/link-button.component';
 import SplashScreen from 'react-native-splash-screen';
+import {TextInputComponent} from '../components/input.component';
+import {isEmail, isPassword} from '../utils/strings.util';
+import {getErrorMessage} from '../utils/firebase.util';
 
 const styles = StyleSheet.create({
   // Containers
   loginContainer: {paddingTop: normalize(20), flex: 1},
   policyContainer: {
     padding: normalize(30),
-    justifyContent: 'flex-end',
-    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignSelf: 'center',
     textAlign: 'center',
     color: '#fff',
   },
@@ -59,15 +62,6 @@ const styles = StyleSheet.create({
     margin: normalize(10),
   },
   buttonText: {fontSize: 15, color: '#fff', alignSelf: 'center'},
-  input: {
-    height: normalize(55),
-    margin: normalize(12),
-    borderWidth: 1,
-    padding: normalize(10),
-    color: '#fff',
-    borderColor: '#fff',
-    borderRadius: 10,
-  },
 
   // Logo
   logoContainer: {
@@ -97,6 +91,7 @@ const styles = StyleSheet.create({
 
 function Login() {
   const [email, setEmail] = useState('');
+  const [touched, setTouched] = useState(false);
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
@@ -113,31 +108,46 @@ function Login() {
     return unsubscribe;
   }, [navigation]);
 
+  const isValid = () => {
+    if (!email || !password) {
+      return false;
+    }
+    return isEmail(email);
+  };
+
   // function to sign up the user
   const handleSignUp = () => {
+    if (!isValid()) {
+      setTouched(true);
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
       })
       .catch(error => {
-        Alert.alert(
-          'Fehler',
-          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
-        );
+        let message = getErrorMessage(error.code);
+
+        Alert.alert('Fehler', message);
       });
   };
 
   // function to sign the user in
   const handleSignIn = () => {
+    if (!isValid()) {
+      setTouched(true);
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
       })
       .catch(error => {
-        Alert.alert(
-          'Fehler',
-          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
-        );
+        let message = getErrorMessage(error.code);
+
+        Alert.alert('Fehler', message);
       });
   };
 
@@ -152,20 +162,26 @@ function Login() {
       </View>
 
       <View style={styles.loginContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setEmail(text)}
-          placeholder="Ihre E-Mail"
-          placeholderTextColor="white"
+        <TextInputComponent
+          label={'Ihre E-Mail'}
           value={email}
+          onChangeText={text => setEmail(text)}
+          error={
+            isEmail(email) ? null : 'Bitte geben Sie eine gültige E-Mail ein.'
+          }
+          touched={touched}
         />
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setPassword(text)}
-          placeholder="Ihr Passwort"
-          placeholderTextColor="white"
+        <TextInputComponent
+          label={'Ihr Passwort'}
           value={password}
           secureTextEntry
+          onChangeText={text => setPassword(text)}
+          error={
+            isPassword(password)
+              ? null
+              : 'Ihr Passwort muss mindestens 6 Zeichen lang sein, eine Zahl, ein Sonderzeichen und ein Groß-, Kleinbuchstaben enthalten.'
+          }
+          touched={touched}
         />
 
         <TouchableOpacity style={styles.button} onPress={handleSignIn}>
