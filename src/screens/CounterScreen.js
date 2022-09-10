@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   grey: {color: '#c1c1c1'},
   white: {color: '#fff', fontWeight: 'bold', fontSize: 18},
   primary: {color: '#00ffb4', fontWeight: 'bold', fontSize: 18},
-  red: {color: '#eb173b', fontWeight: 'bold', fontSize: 18},
 
   // Positioning
   center: {justifyContent: 'center'},
@@ -273,6 +272,12 @@ class Counter extends Component {
             style={styles.backgroundImage}
             imageStyle={styles.imageStyle}>
             <SafeAreaView style={{flex: 1}}>
+              <TouchableOpacity
+                style={styles.resetButton}
+                onPress={this.resetCount}>
+                <Text style={styles.buttonText}>Counter Zurücksetzen</Text>
+              </TouchableOpacity>
+
               <Row size={45} style={styles.left}>
                 <View style={styles.height}>
                   <Text style={styles.title}>Jade Hookah</Text>
@@ -298,8 +303,10 @@ class Counter extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
-                  <Text onPress={this.resetCount} style={styles.red}>
-                    Löschen
+                  <Text
+                    onPress={() => this.props.navigation.navigate('Mix')}
+                    style={styles.primary}>
+                    MIXES
                   </Text>
                 </TouchableOpacity>
 
