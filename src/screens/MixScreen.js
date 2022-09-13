@@ -4,17 +4,14 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Pressable,
-  Alert,
   Modal,
-  TextInput,
-  ImageBackground,
   Image,
   TouchableOpacity,
 } from 'react-native';
 import normalize from 'react-native-normalize/src/index';
 import TobaccoCard from '../components/tobacco-card.component';
 import {Col, Grid, Row} from 'react-native-easy-grid';
+import FavoriteCard from '../components/favorit-card.component';
 
 const styles = StyleSheet.create({
   container: {
@@ -105,6 +102,19 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   emoji: {width: 80, height: 80, alignSelf: 'center'},
+  favText: {
+    fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: normalize(20),
+    fontSize: 17,
+  },
+  discoverText: {
+    paddingTop: normalize(10),
+    fontWeight: 'bold',
+    color: '#00ffb4',
+    marginLeft: normalize(20),
+    fontSize: 17,
+  },
 });
 
 const Mix = () => {
@@ -272,7 +282,26 @@ const Mix = () => {
       </Modal>
 
       <Grid>
+        <Text style={styles.favText}>Favorites</Text>
         <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <FavoriteCard />
+            </TouchableOpacity>
+          </Col>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <FavoriteCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+        <Text style={styles.discoverText}>Discover</Text>
+        <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
           <Col>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <TobaccoCard />
@@ -285,8 +314,6 @@ const Mix = () => {
               <TobaccoCard />
             </TouchableOpacity>
           </Col>
-        </Row>
-        <Row>
           <Col>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <TobaccoCard />
@@ -299,8 +326,30 @@ const Mix = () => {
               <TobaccoCard />
             </TouchableOpacity>
           </Col>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
         </Row>
         <Row>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
+        </Row>
+        <Row style={{paddingBottom: normalize(100)}}>
+          <Col>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TobaccoCard />
+            </TouchableOpacity>
+          </Col>
           <Col>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <TobaccoCard />

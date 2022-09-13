@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#23262B',
     width: normalize(160),
-    height: normalize(150),
+    height: normalize(70),
     padding: normalize(15),
     marginTop: normalize(15),
     borderRadius: 15,
@@ -37,20 +37,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tobaccoName: {color: '#00ffb3'},
+  heart: {
+    width: normalize(20),
+    height: normalize(20),
+    bottom: normalize(30),
+    left: normalize(120),
+  },
 });
 
-const TobaccoCard = props => {
+const FavoriteCard = props => {
   return (
     <View style={styles.card}>
-      <Text style={styles.cardName}>Traubman</Text>
-      <Text style={styles.username}>@username</Text>
-      <Image
-        style={styles.emojiRating}
-        source={require('../assets/img/emoji_1.png')}
-      />
-      <Text style={styles.detailText}>Siehe mehr</Text>
+      <Row>
+        <Col>
+          <Col>
+            <Text style={styles.cardName}>Traubman</Text>
+            <Text style={styles.username}>@username</Text>
+          </Col>
+          <Image
+            style={styles.heart}
+            source={require('../assets/img/emoji_4.png')}
+          />
+        </Col>
+      </Row>
     </View>
   );
 };
 
-export default TobaccoCard;
+export default FavoriteCard;
