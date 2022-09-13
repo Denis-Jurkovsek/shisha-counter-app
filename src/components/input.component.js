@@ -32,7 +32,7 @@ export const TextInputComponent = React.memo(
             styles.borderRadiusPrimary,
             {
               paddingLeft: 5,
-              height: 63,
+              height: 50,
             },
           ]}>
           <Text
@@ -40,7 +40,7 @@ export const TextInputComponent = React.memo(
               fontSize: styles.fontTiny.fontSize,
               paddingRight: 5,
               marginLeft: 7,
-              paddingTop: 10,
+              paddingTop: 2,
               color: styles.colorHint.color,
             }}>
             {props.label}

@@ -7,7 +7,6 @@ import {
   ImageBackground,
   Alert,
   SafeAreaView,
-  Button,
 } from 'react-native';
 import {auth, db} from '../../firebase';
 import {getDoc, doc, setDoc} from 'firebase/firestore/lite';
@@ -22,7 +21,12 @@ const styles = StyleSheet.create({
   height: {height: '100%'},
 
   // Colors
-  grey: {color: '#c1c1c1'},
+  grey: {
+    color: '#c1c1c1',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
   white: {color: '#fff', fontWeight: 'bold', fontSize: 18},
   primary: {color: '#00ffb4', fontWeight: 'bold', fontSize: 18},
 
@@ -36,21 +40,29 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: 'bold',
     top: normalize(65),
+    textAlign: 'center',
   },
   subTitle: {
     color: '#fff',
     fontSize: 35,
     fontWeight: 'bold',
     marginTop: normalize(60),
+    textAlign: 'center',
   },
 
   // Counter
-  counter: {color: '#00ffb4', fontSize: 100, fontWeight: 'bold'},
-  counterText: {
-    color: '#c1c1c1',
-    fontSize: 20,
+  counter: {
+    color: '#00ffb4',
+    fontSize: 100,
     fontWeight: 'bold',
-    bottom: normalize(10),
+    bottom: normalize(70),
+  },
+  counterText: {
+    textAlign: 'center',
+    color: '#c1c1c1',
+    fontSize: 22,
+    fontWeight: 'bold',
+    bottom: normalize(85),
   },
 
   // Background Image
@@ -63,10 +75,11 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     resizeMode: 'cover',
-    height: normalize(800),
-    top: normalize(120),
-    left: normalize(-110),
-    opacity: 0.4,
+    height: normalize(450),
+    width: normalize(500),
+    top: normalize(250),
+    left: normalize(-150),
+    opacity: 0.2,
   },
 
   // Button
@@ -268,7 +281,7 @@ class Counter extends Component {
 
         <Grid>
           <ImageBackground
-            source={require('../assets/hookah.png')}
+            source={require('../assets/img/counter-bg.png')}
             style={styles.backgroundImage}
             imageStyle={styles.imageStyle}>
             <SafeAreaView style={{flex: 1}}>
@@ -278,13 +291,11 @@ class Counter extends Component {
                 <Text style={styles.buttonText}>Counter Zurücksetzen</Text>
               </TouchableOpacity>
 
-              <Row size={45} style={styles.left}>
+              <Row size={45} style={styles.center}>
                 <View style={styles.height}>
-                  <Text style={styles.title}>Jade Hookah</Text>
-                  <Text style={styles.subTitle}>Shisha Counter</Text>
-                  <Text style={styles.grey}>
-                    {this.day}.{this.fullMonth}.{this.year}
-                  </Text>
+                  <Text style={styles.title}>Der Jade Kopf</Text>
+                  <Text style={styles.subTitle}>COUNTER</Text>
+                  <Text style={styles.grey}>@username</Text>
                 </View>
               </Row>
 

@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
-  TextInput,
   View,
   StyleSheet,
   Text,
-  Image,
   TouchableOpacity,
   ScrollView,
   Alert,
@@ -31,6 +29,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     color: '#fff',
+    top: normalize(30),
   },
   container: {
     padding: normalize(20),
@@ -61,28 +60,29 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(18),
     margin: normalize(10),
   },
-  buttonText: {fontSize: 15, color: '#fff', alignSelf: 'center'},
+  buttonText: {fontSize: 16, color: '#4D4D4D', alignSelf: 'center'},
 
-  // Logo
-  logoContainer: {
-    paddingTop: normalize(50),
-    paddingBottom: normalize(10),
-    paddingHorizontal: normalize(10),
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  logo: {
-    width: normalize(50),
-    height: normalize(50),
-  },
-  logoText: {
-    color: '#fff',
-    fontSize: 30,
+  // Title
+  title: {
+    paddingTop: normalize(70),
+    color: '#00ffb4',
+    fontSize: 40,
     fontWeight: 'bold',
-    textAlignVertical: 'center',
-    alignSelf: 'center',
-    marginLeft: normalize(20),
+    textAlign: 'center',
+  },
+  subTitle: {
+    color: '#fff',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  description: {
+    textAlign: 'center',
+    paddingTop: normalize(10),
+    paddingLeft: normalize(30),
+    paddingRight: normalize(30),
+    paddingBottom: normalize(20),
+    fontSize: 15,
   },
 
   // Policy
@@ -156,9 +156,12 @@ function Login() {
       bounces={false}
       automaticallyAdjustsScrollIndicatorInsets={true}
       style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require('../assets/img/logo.png')} />
-        <Text style={styles.logoText}>Shisha Counter</Text>
+      <View>
+        <Text style={styles.title}>Der Jade Kopf</Text>
+        <Text style={styles.subTitle}>COUNTER</Text>
+        <Text style={styles.description}>
+          Die Nummer 1, wenn es darum geht Köpfe zu zählen!
+        </Text>
       </View>
 
       <View style={styles.loginContainer}>
@@ -194,10 +197,10 @@ function Login() {
       </View>
 
       <View style={styles.policyContainer}>
-        <LinkButton url="https://www.jade-hookah.de/impressum">
+        <LinkButton url="https://uniqueware.net/terms">
           <Text style={styles.policyText}>
             Beim Anmelden in der App akzeptieren Sie die Datenschutzbestimmungen
-            und die AGBs!
+            und die AGB.
           </Text>
         </LinkButton>
       </View>
