@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {
-  View,
+  Alert,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  ScrollView,
-  Alert,
+  View,
 } from 'react-native';
 import {
   createUserWithEmailAndPassword,
@@ -28,7 +28,7 @@ function Login() {
 
   // After register or login, get redirected to the counter screen
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    return auth.onAuthStateChanged(user => {
       if (user) {
         navigation.replace('Counter');
       } else {
@@ -36,7 +36,6 @@ function Login() {
         SplashScreen.hide();
       }
     });
-    return unsubscribe;
   }, [navigation]);
 
   const isValid = () => {

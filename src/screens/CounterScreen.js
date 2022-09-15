@@ -96,16 +96,22 @@ class Counter extends Component {
   };
 
   setCount = count => {
+    if (count === undefined || count === null) {
+      this.setCount(0);
+      this.setState({dialogVisible: false});
+      return;
+    }
+
     // check if count is a number to prevent parsing errors
     if (!this.isNumber(count)) {
       Alert.alert('Fehler', 'Bitte geben Sie nur Zahlen ein!');
-
       return;
     }
 
     NetInfo.fetch().then(async state => {
       if (state.isConnected >= true) {
         this.setState({counter: +count});
+        this.setState({dialogVisible: false});
       } else {
         // Replace maybe to a redirect or something
         Alert.alert(
@@ -199,7 +205,6 @@ class Counter extends Component {
           onClose={() => this.setState({dialogVisible: false})}
           onConfirm={e => {
             this.setCount(e);
-            this.setState({dialogVisible: false});
           }}
         />
 
