@@ -9,6 +9,56 @@ import {
 } from 'react-native';
 import normalize from 'react-native-normalize/src/index';
 
+class MixCreator extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Create your own</Text>
+          <Text style={styles.subtitle}>MIXES.</Text>
+        </View>
+
+        <View style={{backgroundColor: 'orange'}}>
+          <TextInput
+            style={styles.input}
+            placeholder="Ihre E-Mail"
+            placeholderTextColor="white"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Ihr Passwort"
+            placeholderTextColor="white"
+            secureTextEntry
+          />
+
+          <View style={styles.emojiContainer}>
+            <Image
+              style={styles.emoji}
+              source={require('../assets/img/emoji_4.png')}
+            />
+            <Image
+              style={styles.emoji}
+              source={require('../assets/img/emoji_4.png')}
+            />
+            <Image
+              style={styles.emoji}
+              source={require('../assets/img/emoji_4.png')}
+            />
+            <Image
+              style={styles.emoji}
+              source={require('../assets/img/emoji_4.png')}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Anmelden</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,57 +134,5 @@ const styles = StyleSheet.create({
   emojiContainer: {justifyContent: 'flex-end', backgroundColor: 'red'},
   emoji: {width: 50, height: 50},
 });
-
-const rating_image = require('../assets/img/hookah.png');
-
-class MixCreator extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Create your own</Text>
-          <Text style={styles.subtitle}>MIXES.</Text>
-        </View>
-
-        <View style={{backgroundColor: 'orange'}}>
-          <TextInput
-            style={styles.input}
-            placeholder="Ihre E-Mail"
-            placeholderTextColor="white"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Ihr Passwort"
-            placeholderTextColor="white"
-            secureTextEntry
-          />
-
-          <View style={styles.emojiContainer}>
-            <Image
-              style={styles.emoji}
-              source={require('../assets/img/emoji_4.png')}
-            />
-            <Image
-              style={styles.emoji}
-              source={require('../assets/img/emoji_4.png')}
-            />
-            <Image
-              style={styles.emoji}
-              source={require('../assets/img/emoji_4.png')}
-            />
-            <Image
-              style={styles.emoji}
-              source={require('../assets/img/emoji_4.png')}
-            />
-          </View>
-
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Anmelden</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-}
 
 export default MixCreator;

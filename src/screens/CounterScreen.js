@@ -16,82 +16,6 @@ import NetInfo from '@react-native-community/netinfo';
 import SplashScreen from 'react-native-splash-screen';
 import {DialogComponent} from '../components/dialog.component';
 
-const styles = StyleSheet.create({
-  bg: {flex: 1, alignItems: 'center', backgroundColor: '#333'},
-  height: {height: '100%'},
-
-  // Colors
-  grey: {
-    color: '#c1c1c1',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 15,
-  },
-  white: {color: '#fff', fontWeight: 'bold', fontSize: 18},
-  primary: {color: '#00ffb4', fontWeight: 'bold', fontSize: 18},
-
-  // Positioning
-  center: {justifyContent: 'center'},
-  left: {justifyContent: 'flex-start'},
-
-  // Title
-  title: {
-    color: '#00ffb4',
-    fontSize: 35,
-    fontWeight: 'bold',
-    top: normalize(65),
-    textAlign: 'center',
-  },
-  subTitle: {
-    color: '#fff',
-    fontSize: 35,
-    fontWeight: 'bold',
-    marginTop: normalize(60),
-    textAlign: 'center',
-  },
-
-  // Counter
-  counter: {
-    color: '#00ffb4',
-    fontSize: 100,
-    fontWeight: 'bold',
-    bottom: normalize(70),
-  },
-  counterText: {
-    textAlign: 'center',
-    color: '#c1c1c1',
-    fontSize: 22,
-    fontWeight: 'bold',
-    bottom: normalize(85),
-  },
-
-  // Background Image
-  backgroundImage: {
-    width: '100%',
-    height: '100%',
-    padding: normalize(50),
-    paddingVertical: 0,
-    overflow: 'hidden',
-  },
-  imageStyle: {
-    resizeMode: 'cover',
-    height: normalize(450),
-    width: normalize(500),
-    top: normalize(250),
-    left: normalize(-150),
-    opacity: 0.2,
-  },
-
-  // Button
-  button: {paddingLeft: normalize(30), paddingRight: normalize(30)},
-  resetButton: {
-    marginTop: normalize(20),
-    justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-});
-
 class Counter extends Component {
   constructor(props) {
     super(props);
@@ -295,7 +219,6 @@ class Counter extends Component {
                 <View style={styles.height}>
                   <Text style={styles.title}>Der Jade Kopf</Text>
                   <Text style={styles.subTitle}>COUNTER</Text>
-                  <Text style={styles.grey}>@username</Text>
                 </View>
               </Row>
 
@@ -316,9 +239,8 @@ class Counter extends Component {
                 <TouchableOpacity style={styles.button}>
                   <Text
                     onPress={() => this.props.navigation.navigate('Mix')}
-                    style={styles.primary}>
-                    MIXES
-                  </Text>
+                    style={styles.primary}
+                  />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
@@ -334,5 +256,81 @@ class Counter extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  bg: {flex: 1, alignItems: 'center', backgroundColor: '#333'},
+  height: {height: '100%'},
+
+  // Colors
+  grey: {
+    color: '#c1c1c1',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+  white: {color: '#fff', fontWeight: 'bold', fontSize: 18},
+  primary: {color: '#00ffb4', fontWeight: 'bold', fontSize: 18},
+
+  // Positioning
+  center: {justifyContent: 'center'},
+  left: {justifyContent: 'flex-start'},
+
+  // Title
+  title: {
+    color: '#00ffb4',
+    fontSize: 35,
+    fontWeight: 'bold',
+    top: normalize(65),
+    textAlign: 'center',
+  },
+  subTitle: {
+    color: '#fff',
+    fontSize: 35,
+    fontWeight: 'bold',
+    marginTop: normalize(60),
+    textAlign: 'center',
+  },
+
+  // Counter
+  counter: {
+    color: '#00ffb4',
+    fontSize: 100,
+    fontWeight: 'bold',
+    bottom: normalize(70),
+  },
+  counterText: {
+    textAlign: 'center',
+    color: '#c1c1c1',
+    fontSize: 22,
+    fontWeight: 'bold',
+    bottom: normalize(85),
+  },
+
+  // Background Image
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    padding: normalize(50),
+    paddingVertical: 0,
+    overflow: 'hidden',
+  },
+  imageStyle: {
+    resizeMode: 'cover',
+    height: normalize(450),
+    width: normalize(500),
+    top: normalize(250),
+    left: normalize(-150),
+    opacity: 0.2,
+  },
+
+  // Button
+  button: {paddingLeft: normalize(30), paddingRight: normalize(30)},
+  resetButton: {
+    marginTop: normalize(20),
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+});
 
 export default Counter;

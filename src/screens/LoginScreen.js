@@ -20,75 +20,6 @@ import {TextInputComponent} from '../components/input.component';
 import {isEmail, isPassword} from '../utils/strings.util';
 import {getErrorMessage} from '../utils/firebase.util';
 
-const styles = StyleSheet.create({
-  // Containers
-  loginContainer: {paddingTop: normalize(20), flex: 1},
-  policyContainer: {
-    padding: normalize(30),
-    justifyContent: 'center',
-    alignSelf: 'center',
-    textAlign: 'center',
-    color: '#fff',
-    top: normalize(30),
-  },
-  container: {
-    padding: normalize(20),
-    height: '100%',
-    flex: 1,
-    backgroundColor: '#333',
-  },
-
-  // Login & Register Buttons
-  button: {
-    elevation: 8,
-    backgroundColor: '#00ffb3',
-    borderRadius: 15,
-    paddingVertical: normalize(15),
-    margin: normalize(10),
-  },
-  buttonApple: {
-    elevation: 8,
-    backgroundColor: '#09101D',
-    borderRadius: 15,
-    paddingVertical: normalize(18),
-    margin: normalize(10),
-  },
-  buttonGoogle: {
-    elevation: 8,
-    backgroundColor: '#5384EC',
-    borderRadius: 15,
-    paddingVertical: normalize(18),
-    margin: normalize(10),
-  },
-  buttonText: {fontSize: 16, color: '#4D4D4D', alignSelf: 'center'},
-
-  // Title
-  title: {
-    paddingTop: normalize(70),
-    color: '#00ffb4',
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  subTitle: {
-    color: '#fff',
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  description: {
-    textAlign: 'center',
-    paddingTop: normalize(10),
-    paddingLeft: normalize(30),
-    paddingRight: normalize(30),
-    paddingBottom: normalize(20),
-    fontSize: 15,
-  },
-
-  // Policy
-  policyText: {color: '#c1c1c1', textAlign: 'center'},
-});
-
 function Login() {
   const [email, setEmail] = useState('');
   const [touched, setTouched] = useState(false);
@@ -207,5 +138,74 @@ function Login() {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  // Containers
+  loginContainer: {paddingTop: normalize(20), flex: 1},
+  policyContainer: {
+    padding: normalize(30),
+    justifyContent: 'center',
+    alignSelf: 'center',
+    textAlign: 'center',
+    color: '#fff',
+    top: normalize(30),
+  },
+  container: {
+    padding: normalize(20),
+    height: '100%',
+    flex: 1,
+    backgroundColor: '#333',
+  },
+
+  // Login & Register Buttons
+  button: {
+    elevation: 8,
+    backgroundColor: '#00ffb3',
+    borderRadius: 15,
+    paddingVertical: normalize(15),
+    margin: normalize(10),
+  },
+  buttonApple: {
+    elevation: 8,
+    backgroundColor: '#09101D',
+    borderRadius: 15,
+    paddingVertical: normalize(18),
+    margin: normalize(10),
+  },
+  buttonGoogle: {
+    elevation: 8,
+    backgroundColor: '#5384EC',
+    borderRadius: 15,
+    paddingVertical: normalize(18),
+    margin: normalize(10),
+  },
+  buttonText: {fontSize: 16, color: '#4D4D4D', alignSelf: 'center'},
+
+  // Title
+  title: {
+    paddingTop: normalize(70),
+    color: '#00ffb4',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  subTitle: {
+    color: '#fff',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  description: {
+    textAlign: 'center',
+    paddingTop: normalize(10),
+    paddingLeft: normalize(30),
+    paddingRight: normalize(30),
+    paddingBottom: normalize(20),
+    fontSize: 15,
+  },
+
+  // Policy
+  policyText: {color: '#c1c1c1', textAlign: 'center'},
+});
 
 export default React.memo(Login);
