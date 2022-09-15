@@ -97,23 +97,21 @@ function Login() {
 
       <View style={styles.loginContainer}>
         <TextInputComponent
-          label={'Ihre E-Mail'}
+          label={'Deine E-Mail'}
           value={email}
           onChangeText={text => setEmail(text)}
-          error={
-            isEmail(email) ? null : 'Bitte geben Sie eine gültige E-Mail ein.'
-          }
+          error={isEmail(email) ? null : 'Bitte gib eine gültige E-Mail ein.'}
           touched={touched}
         />
         <TextInputComponent
-          label={'Ihr Passwort'}
+          label={'Dein Passwort'}
           value={password}
           secureTextEntry
           onChangeText={text => setPassword(text)}
           error={
             isPassword(password)
               ? null
-              : 'Ihr Passwort muss mindestens 6 Zeichen lang sein, eine Zahl, ein Sonderzeichen und ein Groß-, Kleinbuchstaben enthalten.'
+              : 'Dein Passwort muss mindestens 6 Zeichen lang sein, eine Zahl, ein Sonderzeichen und ein Groß-, Kleinbuchstaben enthalten.'
           }
           touched={touched}
         />
