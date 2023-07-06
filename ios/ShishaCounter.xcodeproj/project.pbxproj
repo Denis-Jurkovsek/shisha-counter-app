@@ -488,7 +488,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NS629Y3RBR;
+				DEVELOPMENT_TEAM = VU3MJ75P9M;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ShishaCounter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -500,7 +500,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shishacounterapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shishacounterapp2;
 				PRODUCT_NAME = ShishaCounter;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -515,7 +515,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NS629Y3RBR;
+				DEVELOPMENT_TEAM = VU3MJ75P9M;
 				INFOPLIST_FILE = ShishaCounter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -526,7 +526,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shishacounterapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shishacounterapp2;
 				PRODUCT_NAME = ShishaCounter;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
