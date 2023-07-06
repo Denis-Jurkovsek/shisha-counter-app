@@ -28,10 +28,12 @@ class Counter extends Component {
     };
   }
 
+  // If the component updates, call setData
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.setData();
   }
 
+  // If the component mounts, call getDocument
   componentDidMount() {
     NetInfo.fetch().then(state => {
       if (state.isConnected >= true) {
@@ -42,15 +44,14 @@ class Counter extends Component {
             SplashScreen.hide();
           })
           .catch(() => {
-            // Create data for the first time
+            // Create data if no document exists
             this.setData();
             SplashScreen.hide();
 
-            // prompt to enter how many hookahs the user already smoked
+            // Prompt to enter how many hookahs the user already smoked
             this.setState({dialogVisible: true});
           });
       } else {
-        // Replace maybe to a redirect or something
         Alert.alert(
           'Internet Verbindung',
           'Sie benötigen Internet um die App nutzen zu können.',
@@ -67,7 +68,6 @@ class Counter extends Component {
     if (docSnap.exists()) {
       return docSnap.data();
     } else {
-      // doc.data() will be undefined in this case
       return null;
     }
   };
@@ -80,13 +80,12 @@ class Counter extends Component {
     });
   };
 
-  // Function to add plus one to the counter
+  // Function to count up
   addCount = () => {
     NetInfo.fetch().then(async state => {
       if (state.isConnected >= true) {
         this.setState({counter: this.state.counter + 1});
       } else {
-        // Replace maybe to a redirect or something
         Alert.alert(
           'Internet Verbindung',
           'Sie benötigen Internet um die App nutzen zu können.',
@@ -95,6 +94,7 @@ class Counter extends Component {
     });
   };
 
+  // Function to set the counter to a specific number
   setCount = count => {
     if (count === undefined || count === null) {
       this.setCount(0);
@@ -102,7 +102,7 @@ class Counter extends Component {
       return;
     }
 
-    // check if count is a number to prevent parsing errors
+    // Check if the input is a number
     if (!this.isNumber(count)) {
       Alert.alert('Fehler', 'Bitte geben Sie nur Zahlen ein!');
       return;
@@ -113,7 +113,6 @@ class Counter extends Component {
         this.setState({counter: +count});
         this.setState({dialogVisible: false});
       } else {
-        // Replace maybe to a redirect or something
         Alert.alert(
           'Internet Verbindung',
           'Sie benötigen Internet um die App nutzen zu können.',
@@ -122,7 +121,7 @@ class Counter extends Component {
     });
   };
 
-  // Function to subtract one from the counter
+  // Function to count down
   removeCount = () => {
     NetInfo.fetch().then(async state => {
       if (state.isConnected >= true) {
@@ -130,7 +129,6 @@ class Counter extends Component {
           this.setState({counter: this.state.counter - 1});
         }
       } else {
-        // Replace maybe to a redirect or something
         Alert.alert(
           'Internet Verbindung',
           'Sie benötigen Internet um die App nutzen zu können.',
@@ -171,31 +169,10 @@ class Counter extends Component {
     );
   };
 
-  // Function to sign out
-  handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        this.props.navigation.replace('Login');
-      })
-      .catch(error => {
-        Alert.alert(
-          'Fehler',
-          'Es ist ein Fehler aufgetreten, versuchen Sie es erneut.',
-        );
-      });
-  };
-
-  // check if string only contains numbers
+  // Check if string only contains numbers
   isNumber = str => {
     return /^\d+$/.test(str);
   };
-
-  // Get the current date
-  day = new Date().getDate();
-  month = new Date().getMonth() + 1;
-  fullMonth = this.month.toString().padStart(2, '0');
-  year = new Date().getFullYear();
 
   render() {
     return (
@@ -330,6 +307,11 @@ const styles = StyleSheet.create({
 
   // Button
   button: {paddingLeft: normalize(30), paddingRight: normalize(30)},
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   resetButton: {
     marginTop: normalize(20),
     justifyContent: 'center',
