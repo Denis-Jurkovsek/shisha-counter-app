@@ -19,6 +19,7 @@
     "react-native": "0.67.2",
     "react-native-dialog": "^9.2.2",
     "react-native-easy-grid": "^0.2.2",
+    "react-native-gifted-chat": "^2.4.0",
     "react-native-google-signin": "^2.1.1",
     "react-native-normalize": "^1.0.1",
     "react-native-ratings": "^8.1.0",

@@ -6,6 +6,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import MixScreen from './src/screens/MixScreen';
 import {View} from 'react-native';
 import {StatusBar} from 'react-native';
+import ChatScreen from './src/screens/ChatScreen';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -32,6 +33,11 @@ function App() {
             options={{headerShown: false}}
             name="Mix"
             component={MixScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Chat"
+            component={ChatScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
