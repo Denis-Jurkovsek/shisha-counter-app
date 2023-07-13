@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CounterScreen from './src/screens/CounterScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import MixScreen from './src/screens/MixScreen';
-import {View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {StatusBar} from 'react-native';
 import ChatScreen from './src/screens/ChatScreen';
+import ChatButtonComponent from './src/components/chat-button.component';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     StatusBar.setBarStyle('light-content', true);
     StatusBar.setBackgroundColor('#333');
   });
+
   return (
     // Component from ReactNavigation, to make the routing
     <View style={{flex: 1}}>
@@ -25,10 +27,19 @@ function App() {
             component={LoginScreen}
           />
           <Stack.Screen
-            options={{headerShown: false}}
             name="Counter"
             component={CounterScreen}
+            options={{
+              headerShown: true,
+              headerTitle: () => <Text />,
+              headerStyle: {
+                backgroundColor: '#333',
+              },
+              headerShadowVisible: false,
+              headerRight: () => <ChatButtonComponent />,
+            }}
           />
+
           <Stack.Screen
             options={{headerShown: false}}
             name="Mix"

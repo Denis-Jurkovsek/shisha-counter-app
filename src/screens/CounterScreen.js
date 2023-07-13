@@ -220,7 +220,7 @@ class Counter extends Component {
 
                 <TouchableOpacity style={styles.button}>
                   <Text
-                    onPress={() => this.props.navigation.navigate('Chat')}
+                    onPress={() => this.props.navigation.navigate('Mix')}
                     style={styles.primary}>
                     Mixes
                   </Text>
