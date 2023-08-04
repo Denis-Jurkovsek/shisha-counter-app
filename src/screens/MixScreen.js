@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import normalize from 'react-native-normalize/src/index';
 import {collection, doc, getDoc, getDocs} from 'firebase/firestore/lite';
 import {db} from '../../firebase';
