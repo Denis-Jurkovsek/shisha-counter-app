@@ -11,8 +11,8 @@ const ChatButtonComponent = () => {
         navigation.navigate('Chat');
       }}>
       <Image
-        source={require('../assets/img/chat.png')}
-        style={{width: 50, height: 50}}
+        source={require('../assets/img/chat_icon.png')}
+        style={{width: 30, height: 30}}
       />
     </TouchableOpacity>
   );

@@ -1,258 +1,53 @@
-import React, {Component, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Modal,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import normalize from 'react-native-normalize/src/index';
+import {collection, doc, getDoc, getDocs} from 'firebase/firestore/lite';
+import {db} from '../../firebase';
 import TobaccoCard from '../components/tobacco-card.component';
-import {Col, Grid, Row} from 'react-native-easy-grid';
-import FavoriteCard from '../components/favorit-card.component';
 
 const Mix = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  // Get a specific mix
+  const [mixData, setMixData] = useState(null);
+
+  useEffect(() => {
+    const getMixData = async () => {
+      const docRef = doc(db, 'mixes', 'j6tv3wCakqDQ8sWx3fkX');
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log('Document data:', data);
+        setMixData(data);
+      } else {
+        console.log('No such document!');
+      }
+    };
+
+    // get all mixes
+    const getMixes = async () => {
+      const mixRef = collection(db, 'mixes');
+      const mixSnapshot = await getDocs(mixRef);
+      const mixList = mixSnapshot.docs.map(doc => doc.data());
+      console.log('MIX LIST:', mixList);
+    };
+
+    getMixes();
+    getMixData();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>
-          Community <Text style={styles.subtitle}>MIXES.</Text>
+          Discover <Text style={styles.subtitle}>MIXES.</Text>
         </Text>
       </View>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-              <Image
-                style={{
-                  width: 20,
-                  height: 20,
-                  alignSelf: 'flex-end',
-                }}
-                source={require('../assets/img/close_icon.png')}
-              />
-            </TouchableOpacity>
-            <Text style={styles.modalText}>Doppel Pynkman</Text>
-            <Text style={{fontSize: 20, color: '#808080', textAlign: 'center'}}>
-              Was ist drin?
-            </Text>
-
-            <Grid>
-              <Row style={styles.flavourBackground}>
-                <Col>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                      color: '#00ffb3',
-                      fontWeight: 'bold',
-                      marginLeft: normalize(15),
-                      marginTop: normalize(5),
-                    }}>
-                    Pynkman
-                  </Text>
-                </Col>
-                <Col>
-                  <View style={styles.chip}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#fff',
-                        fontWeight: 'bold',
-                      }}>
-                      33%
-                    </Text>
-                  </View>
-                </Col>
-              </Row>
-
-              <Row style={styles.flavourBackground}>
-                <Col>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                      color: '#00ffb3',
-                      fontWeight: 'bold',
-                      marginLeft: normalize(15),
-                      marginTop: normalize(5),
-                    }}>
-                    Pynkman
-                  </Text>
-                </Col>
-                <Col>
-                  <View style={styles.chip}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#fff',
-                        fontWeight: 'bold',
-                      }}>
-                      33%
-                    </Text>
-                  </View>
-                </Col>
-              </Row>
-              <Row style={styles.flavourBackground}>
-                <Col>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                      color: '#00ffb3',
-                      fontWeight: 'bold',
-                      marginLeft: normalize(15),
-                      marginTop: normalize(5),
-                    }}>
-                    Pynkman
-                  </Text>
-                </Col>
-                <Col>
-                  <View style={styles.chip}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#fff',
-                        fontWeight: 'bold',
-                      }}>
-                      33%
-                    </Text>
-                  </View>
-                </Col>
-              </Row>
-              <Row style={styles.flavourBackground}>
-                <Col>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                      color: '#00ffb3',
-                      fontWeight: 'bold',
-                      marginLeft: normalize(15),
-                      marginTop: normalize(5),
-                    }}>
-                    Pynkman
-                  </Text>
-                </Col>
-                <Col>
-                  <View style={styles.chip}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#fff',
-                        fontWeight: 'bold',
-                      }}>
-                      33%
-                    </Text>
-                  </View>
-                </Col>
-              </Row>
-            </Grid>
-
-            <Image
-              style={styles.emoji}
-              source={require('../assets/img/emoji_4.png')}
-            />
-
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.textStyle}>
-                Mark as favourite
-                <Image
-                  style={{width: 15, height: 15}}
-                  source={require('../assets/img/hearth_icon.png')}
-                />
-              </Text>
-            </TouchableOpacity>
-
-            <Text style={{textAlign: 'center', color: '#808080'}}>
-              Created by <Text style={{fontWeight: 'bold'}}>@username</Text>
-            </Text>
-          </View>
-        </View>
-      </Modal>
-
-      <Grid>
-        <Text style={styles.favText}>Favorites</Text>
-        <Row>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <FavoriteCard />
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <FavoriteCard />
-            </TouchableOpacity>
-          </Col>
-        </Row>
-        <Text style={styles.discoverText}>Discover</Text>
-        <Row>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-        </Row>
-        <Row style={{paddingBottom: normalize(100)}}>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <TobaccoCard />
-            </TouchableOpacity>
-          </Col>
-        </Row>
-      </Grid>
+      <TobaccoCard
+        mixture={mixData}
+        name="Traubmann"
+        rating={'sd‚'}
+        username="jade.hookah"
+      />
     </ScrollView>
   );
 };
@@ -261,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: normalize(20),
-    backgroundColor: '#333',
+    backgroundColor: '#262626',
   },
   textContainer: {
     padding: normalize(20),
@@ -270,6 +65,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 40,
     fontWeight: 'bold',
+    paddingTop: normalize(50),
   },
   subtitle: {
     color: '#00ffb4',

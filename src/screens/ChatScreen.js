@@ -90,7 +90,7 @@ const ChatScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#333'}}>
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}

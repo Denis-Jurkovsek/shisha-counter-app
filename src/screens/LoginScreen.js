@@ -87,10 +87,12 @@ function Login() {
       automaticallyAdjustsScrollIndicatorInsets={true}
       style={styles.container}>
       <View>
-        <Text style={styles.title}>Der Jade Kopf</Text>
-        <Text style={styles.subTitle}>COUNTER</Text>
+        <Text style={styles.title}>
+          Counter & <Text style={styles.subTitle}>Mixes</Text>
+        </Text>
+
         <Text style={styles.description}>
-          Die Nummer 1, wenn es darum geht Köpfe zu zählen!
+          Trag deine Köpfe ein und tausche deine Mixes mit anderen aus!
         </Text>
       </View>
 
@@ -138,7 +140,7 @@ function Login() {
 
 const styles = StyleSheet.create({
   // Containers
-  loginContainer: {paddingTop: normalize(20), flex: 1},
+  loginContainer: {paddingTop: normalize(50), flex: 1},
   policyContainer: {
     padding: normalize(30),
     justifyContent: 'center',
@@ -195,10 +197,11 @@ const styles = StyleSheet.create({
   description: {
     textAlign: 'center',
     paddingTop: normalize(10),
-    paddingLeft: normalize(30),
-    paddingRight: normalize(30),
+    paddingLeft: normalize(20),
+    paddingRight: normalize(20),
     paddingBottom: normalize(20),
     fontSize: 15,
+    color: '#c1c1c1',
   },
 
   // Policy

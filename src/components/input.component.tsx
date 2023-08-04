@@ -9,12 +9,10 @@ interface ITextAreaComponentProps extends TextInputProps {
   onChangeText: (text: string) => void;
   disabled?: boolean;
   onPress?: () => void;
-  touched?: boolean | FormikTouched<any> | FormikTouched<any>[] | undefined;
+  touched?: boolean | undefined;
   error?:
     | string
     | string[]
-    | FormikErrors<any>
-    | FormikErrors<any>[]
     | undefined;
   returnKeyType?: 'done' | 'next' | 'search' | 'go' | 'send';
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
@@ -31,7 +29,8 @@ export const TextInputComponent = React.memo(
             styles.bgLightGrey,
             styles.borderRadiusPrimary,
             {
-              paddingLeft: 5,
+              paddingLeft: normalize(5),
+              paddingTop: normalize(5),
               height: 50,
             },
           ]}>
