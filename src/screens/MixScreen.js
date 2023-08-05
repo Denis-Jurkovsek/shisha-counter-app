@@ -6,19 +6,15 @@ import {db} from '../../firebase';
 import TobaccoCard from '../components/tobacco-card.component';
 
 const Mix = () => {
-  // Get a specific mix
+  // Get one specific mix
   const [mixData, setMixData] = useState(null);
-
   useEffect(() => {
     const getMixData = async () => {
       const docRef = doc(db, 'mixes', 'j6tv3wCakqDQ8sWx3fkX');
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        console.log('Document data:', data);
         setMixData(data);
-      } else {
-        console.log('No such document!');
       }
     };
 
@@ -27,12 +23,15 @@ const Mix = () => {
       const mixRef = collection(db, 'mixes');
       const mixSnapshot = await getDocs(mixRef);
       const mixList = mixSnapshot.docs.map(doc => doc.data());
-      console.log('MIX LIST:', mixList);
+      setAllMixes(mixList);
     };
 
     getMixes();
     getMixData();
   }, []);
+
+  // Get all mixes
+  const [allMixes, setAllMixes] = useState([]);
 
   return (
     <ScrollView style={styles.container}>
@@ -42,12 +41,21 @@ const Mix = () => {
         </Text>
       </View>
 
-      <TobaccoCard
-        mixture={mixData}
-        name="Traubmann"
-        rating={'sd‚'}
-        username="jade.hookah"
-      />
+      {allMixes.map((mix, index) => {
+        return (
+          <View key={index}>
+            <TobaccoCard
+              mixture={
+                mix?.flavours && Array.isArray(mix.flavours) ? mix.flavours : []
+              }
+              name={mix.name}
+              rating={mix.rating}
+              username={mix.username}
+              color={mix.color}
+            />
+          </View>
+        );
+      })}
     </ScrollView>
   );
 };
