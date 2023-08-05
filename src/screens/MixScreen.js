@@ -3,7 +3,7 @@ import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import normalize from 'react-native-normalize/src/index';
 import {collection, doc, getDoc, getDocs} from 'firebase/firestore/lite';
 import {db} from '../../firebase';
-import TobaccoCard from '../components/tobacco-card.component';
+import MixCard from '../components/mix-card.component';
 
 const Mix = () => {
   // Get one specific mix
@@ -44,14 +44,17 @@ const Mix = () => {
       {allMixes.map((mix, index) => {
         return (
           <View key={index}>
-            <TobaccoCard
-              mixture={
-                mix?.flavours && Array.isArray(mix.flavours) ? mix.flavours : []
-              }
+            <MixCard
+              key={mix.name}
               name={mix.name}
               rating={mix.rating}
               username={mix.username}
               color={mix.color}
+              strength={mix.strength}
+              Id={mix.Id}
+              flavours={
+                mix?.flavours && Array.isArray(mix.flavours) ? mix.flavours : []
+              }
             />
           </View>
         );
