@@ -286,9 +286,9 @@ PODS:
   - React-jsinspector (0.67.2)
   - React-logger (0.67.2):
     - glog
-  - react-native-netinfo (8.0.0):
+  - react-native-netinfo (8.3.1):
     - React-Core
-  - react-native-safe-area-context (3.3.2):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -360,10 +360,10 @@ PODS:
   - RNGoogleSignin (2.1.1):
     - GoogleSignIn (~> 5.0.0)
     - React
-  - RNScreens (3.10.2):
+  - RNScreens (3.24.0):
     - React-Core
     - React-RCTImage
-  - RNVectorIcons (9.0.0):
+  - RNVectorIcons (9.2.0):
     - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -561,8 +561,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 52beb652bbc61201bd70cbe4f0b8edb607e8da4f
   React-jsinspector: 595f76eba2176ebd8817a1fffd47b84fbdab9383
   React-logger: 23de8ea0f44fa00ee77e96060273225607fd4d78
-  react-native-netinfo: ba4ea50d836c60580c59079233c400753fe5bcb6
-  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
+  react-native-netinfo: 1a6035d3b9780221d407c277ebfb5722ace00658
+  react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   React-perflogger: 3c9bb7372493e49036f07a82c44c8cf65cbe88db
   React-RCTActionSheet: 052606483045a408693aa7e864410b4a052f541a
@@ -577,8 +577,8 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 2450b43df7ffe8e805a0b3dcb2abd4282f1f1836
   ReactCommon: d98c6c96b567f9b3a15f9fd4cc302c1eda8e3cf2
   RNGoogleSignin: 6baed9bb19c9c54614bef63bdc55c381b4e33c44
-  RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
-  RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
+  RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
+  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Yoga: 9b6696970c3289e8dea34b3eda93f23e61fb8121
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
